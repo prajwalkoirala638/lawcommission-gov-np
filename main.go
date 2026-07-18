@@ -21,7 +21,6 @@ import (
 )
 
 // createHTTPClient creates a reusable HTTP client.
-//
 // A shared client allows HTTP connections to be reused,
 // which improves performance when making many requests.
 func createHTTPClient() *http.Client {
@@ -32,7 +31,6 @@ func createHTTPClient() *http.Client {
 
 // fetchHTMLStatus downloads HTML content from a webpage and returns the
 // HTTP status code alongside the body.
-//
 // Unlike a plain "fetch or fail" helper, this deliberately does NOT treat
 // a non-200 status as an error, since callers doing pagination need to
 // inspect 404 responses instead of aborting on them.
@@ -93,7 +91,6 @@ func isPageNotFound(statusCode int, htmlContent string) bool {
 }
 
 // walkHTML recursively walks the entire HTML tree.
-//
 // The handler function is executed for every node.
 // Traversal uses depth-first order:
 // parent node -> first child -> child descendants -> next sibling.
@@ -164,7 +161,6 @@ func removeDuplicates(items []string) []string {
 }
 
 // extractCategoryURLs extracts category page URLs from the main page HTML.
-//
 // Only URLs beginning with the category prefix are kept.
 func extractCategoryURLs(htmlContent string) ([]string, error) {
 	links, err := extractLinks(htmlContent)
@@ -188,7 +184,6 @@ func extractCategoryURLs(htmlContent string) ([]string, error) {
 }
 
 // extractPDFURLs extracts PDF download URLs from HTML.
-//
 // The website stores PDF files under a fixed media directory,
 // so only matching URLs are returned.
 func extractPDFURLs(htmlContent string) ([]string, error) {
@@ -246,7 +241,6 @@ func createFolder(folderPath string) error {
 }
 
 // pdfExists checks whether a PDF file already exists.
-//
 // Existing files are skipped to avoid unnecessary downloads.
 func pdfExists(filePath string) bool {
 	_, err := os.Stat(filePath)
@@ -269,7 +263,6 @@ func createFilename(pdfURL string) string {
 }
 
 // downloadPDF downloads a single PDF file.
-//
 // Existing files are skipped so interrupted runs can continue safely.
 func downloadPDF(client *http.Client, pdfURL string, folder string) error {
 	filename := createFilename(pdfURL)
@@ -315,7 +308,6 @@ func downloadPDF(client *http.Client, pdfURL string, folder string) error {
 }
 
 // downloadPDFs downloads every PDF URL into the PDFs folder.
-//
 // If one PDF fails, the error is logged and downloading continues
 // for the remaining files.
 func downloadPDFs(client *http.Client, pdfURLs []string) error {
