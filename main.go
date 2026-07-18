@@ -197,14 +197,20 @@ func extractPDFURLs(htmlContent string) ([]string, error) {
 		return nil, err
 	}
 
-	const pdfPrefix = "https://giwmscdnone.gov.np/media/pdf_upload/"
+	pdfPrefix := []string{
+		"https://giwmscdnone.gov.np/media/pdf_upload/",
+		"https://giwmscdnone.gov.np/media/app/public/",
+	}
 
 	var pdfs []string
 
 	for _, link := range links {
 		// Keep only PDF download links.
-		if strings.HasPrefix(link, pdfPrefix) {
-			pdfs = append(pdfs, link)
+		for _, prefix := range pdfPrefix {
+			if strings.HasPrefix(link, prefix) {
+				pdfs = append(pdfs, link)
+				break
+			}
 		}
 	}
 
